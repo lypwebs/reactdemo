@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>React生命周期demo</title>
+<script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+
+<div id="example"></div>
+<script type="text/babel">
+	
+class Life extends React.Component{
+	constructor(props){
+		super(props)
+		//初始化状态
+		this.state = {
+			opacity:1
+		}
+		this.distroyComponent = this.distroyComponent.bind(this)
+	}
+	distroyComponent(){
+		ReactDOM.unmountComponentAtNode(document.getElementById("example"))
+	}
+	componentDidMount(){
+		//启动循环定时器
+		this.intervalId = setInterval(function(){
+			let {opacity} = this.state
+			opacity -= 0.1
+			if(opacity <= 0){
+				opacity = 1
+			}
+			this.setState({opacity})
+		}.bind(this),150)
+	}
+	componentWillUnMount(){
+		clearInterval(this.intervalId)
+	}
+	render(){
+		const {opacity} = this.state
+		return(
+		  <div>
+		       <h2 style={{opacity:opacity}}>{this.props.msg}</h2>
+			   <button onClick={this.distroyComponent}>去搭讪</button>
+		  </div>
+		)
+	}
+}
+ReactDOM.render(
+	<Life msg="出现一个花姑娘"/>,
+	document.getElementById('example')
+);
+</script>
+
+</body>
+</html>
