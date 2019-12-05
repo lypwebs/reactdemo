@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>React组件收集表单数据demo</title>
+<script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+
+<div id="example"></div>
+<script type="text/babel">
+	
+class LoginFrom extends React.Component{
+	constructor(props){
+		super(props)
+		//初始化状态
+		this.state = {
+			pwd:''
+		}
+		this.handleSubmit = this.handleSubmit.bind(this)
+		this.handleChange = this.handleChange.bind(this)
+	}
+	handleSubmit(event){
+		//阻止事件的默认行为
+		event.preventDefault()
+		const name = this.nameInput.value
+		const {pwd} = this.state
+		alert(`准备提交的用户名${name},密码为${pwd}`)
+	}
+	handleChange(event){
+		//读取输入的值
+		const pwd = event.target.value;
+		//更新pwd的状态
+		this.setState({pwd})
+	}
+	render(){
+		const {opacity} = this.state
+		return(
+			 <form action="/test.html" onSubmit={this.handleSubmit}>
+				 用户名:<input type="text" ref={input=>this.nameInput = input}/>
+				 密码:<input type="password" value={this.state.pwd} onChange={this.handleChange}/>
+				 <input type="submit" value="登录"/>
+			 </form>
+		)
+	}
+}
+ReactDOM.render(
+	<LoginFrom msg="出现一个花姑娘"/>,
+	document.getElementById('example')
+);
+</script>
+
+</body>
+</html>
